@@ -1,16 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../../src/constant.dart';
 import '../../src/utils.dart';
 import '../../widgets/chart_indicator.dart';
 
 // ignore: must_be_immutable
 class GuesOftenPage extends StatefulWidget {
-  final totalGuest0,
-      totalGuest1,
-      totalGuest2;
-      String
-      namaGuest0,
+  final totalGuest0, totalGuest1, totalGuest2, totalGuest;
+
+  String namaGuest0,
       namaGuest1,
       namaGuest2,
       percentGuest0,
@@ -19,6 +18,7 @@ class GuesOftenPage extends StatefulWidget {
 
   GuesOftenPage({
     super.key,
+    required this.totalGuest,
     required this.totalGuest0,
     required this.totalGuest1,
     required this.totalGuest2,
@@ -159,7 +159,7 @@ class _GuesOftenPageState extends State<GuesOftenPage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -168,7 +168,8 @@ class _GuesOftenPageState extends State<GuesOftenPage> {
                                         children: <Widget>[
                                           Indicator(
                                             color: Colors.amber,
-                                            text: "${widget.namaGuest0}: ${widget.totalGuest0}",
+                                            text:
+                                                "${widget.namaGuest0}: ${widget.totalGuest0}",
                                             isSquare: true,
                                           ),
                                           const SizedBox(
@@ -176,7 +177,8 @@ class _GuesOftenPageState extends State<GuesOftenPage> {
                                           ),
                                           Indicator(
                                             color: clrPrimary,
-                                            text: "${widget.namaGuest1}: ${widget.totalGuest1}",
+                                            text:
+                                                "${widget.namaGuest1}: ${widget.totalGuest1}",
                                             isSquare: true,
                                           ),
                                           const SizedBox(
@@ -210,80 +212,125 @@ class _GuesOftenPageState extends State<GuesOftenPage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        widget.namaGuest0,
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                      trailing: Text(
-                         widget.totalGuest0.toString(),
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        widget.namaGuest1,
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                      trailing: Text(
-                        widget.totalGuest1.toString(),
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        widget.namaGuest2,
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                      trailing: Text(
-                        widget.totalGuest2.toString(),
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                    ),
-                  ],
-                ),
+                child: ListView.separated(
+                  primary: false,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (_, index) {
+                    var row = widget.totalGuest[index];
 
-                // Text(
-                //   'Menu Buku Tamu',
-                //   style: SafeGoogleFont('SF Pro Text',
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.w700,
-                //       height: 1.2575,
-                //       letterSpacing: 1,
-                //       color: Colors.black87),
-                // ),
+                    print("totalguest");
+                    print(row);
+
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                    "Detail",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  content: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: const Text('Nama'),
+                                          subtitle: Text(row['nama']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('Alamat'),
+                                          subtitle: Text(row['alamat']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('Email'),
+                                          subtitle: Text(row['email']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('NoHP'),
+                                          subtitle: Text(row['no_hp']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('TempatLahir'),
+                                          subtitle: Text(row['tempat_lahir']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('TanggalLahir'),
+                                          subtitle: Text(row['tgl_lahir']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('JenisKelamin'),
+                                          subtitle: Text(row['jenis_kelamin']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('JenisKunjungan'),
+                                          subtitle:
+                                              Text(row['jenis_kunjungan']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('Keperluan'),
+                                          subtitle: Text(row['keperluan']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('TujuanSatker'),
+                                          subtitle: Text(row['tujuan_satker']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('TujuanPIC'),
+                                          subtitle: Text(row['tujuan_pic']),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Tutup'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: ListTile(
+                            title: Text(
+                              row['nama'],
+                              style: SafeGoogleFont('SF Pro Text',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.2575,
+                                  letterSpacing: 1,
+                                  color: Colors.black87),
+                            ),
+                            trailing: Text(
+                              row['total'].toString(),
+                              style: SafeGoogleFont('SF Pro Text',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.2575,
+                                  letterSpacing: 1,
+                                  color: Colors.black87),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  itemCount:
+                      widget.totalGuest.isEmpty ? 0 : widget.totalGuest.length,
+                  separatorBuilder: (_, index) => const SizedBox(
+                    height: 5,
+                  ),
+                ),
               ),
             ],
           ),

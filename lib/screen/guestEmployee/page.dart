@@ -6,7 +6,8 @@ import '../../widgets/chart_indicator.dart';
 
 // ignore: must_be_immutable
 class EmployeePage extends StatefulWidget {
-  final totalEmployee0,
+  final totalEmployee,
+  totalEmployee0,
       totalEmployee1,
       totalEmployee2;
       String
@@ -19,6 +20,7 @@ class EmployeePage extends StatefulWidget {
 
   EmployeePage({
     super.key,
+    required this.totalEmployee,
     required this.totalEmployee0,
     required this.totalEmployee1,
     required this.totalEmployee2,
@@ -210,70 +212,180 @@ class _EmployeePageState extends State<EmployeePage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        widget.namaEmployee0,
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                      trailing: Text(
-                         widget.totalEmployee0.toString(),
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        widget.namaEmployee1,
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                      trailing: Text(
-                        widget.totalEmployee1.toString(),
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        widget.namaEmployee2,
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                      trailing: Text(
-                        widget.totalEmployee2.toString(),
-                        style: SafeGoogleFont('SF Pro Text',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2575,
-                            letterSpacing: 1,
-                            color: Colors.black87),
-                      ),
-                    ),
-                  ],
+                child: ListView.separated(
+                  primary: false,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (_, index) {
+                    var row = widget.totalEmployee[index];
+
+                    print("totalEmployee");
+                    print(row);
+
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                    "Detail",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                  content: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          title: const Text('Nama'),
+                                          subtitle: Text(row['pegawai']['nama']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('NIP'),
+                                          subtitle: Text(row['pegawai']['nip'].toString()),
+                                        ),
+                                        ListTile(
+                                          title: const Text('NRP'),
+                                          subtitle: Text(row['pegawai']['nrp'].toString()),
+                                        ),
+                                        ListTile(
+                                          title: const Text('NoHP'),
+                                          subtitle: Text(row['pegawai']['no_identitas'].toString()),
+                                        ),
+                                        ListTile(
+                                          title: const Text('TempatLahir'),
+                                          subtitle: Text(row['pegawai']['tempat_lahir']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('TanggalLahir'),
+                                          subtitle: Text(row['pegawai']['tanggal_lahir']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('JenisKelamin'),
+                                          subtitle: Text(row['pegawai']['jenis_kelamin']),
+                                        ),
+                                        ListTile(
+                                          title: const Text('Agama'),
+                                          subtitle: Text(row['pegawai']['agama']),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Tutup'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: ListTile(
+                            title: Text(
+                              row['nama'],
+                              style: SafeGoogleFont('SF Pro Text',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.2575,
+                                  letterSpacing: 1,
+                                  color: Colors.black87),
+                            ),
+                            trailing: Text(
+                              row['total'].toString(),
+                              style: SafeGoogleFont('SF Pro Text',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.2575,
+                                  letterSpacing: 1,
+                                  color: Colors.black87),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  itemCount:
+                      widget.totalEmployee.isEmpty ? 0 : widget.totalEmployee.length,
+                  separatorBuilder: (_, index) => const SizedBox(
+                    height: 5,
+                  ),
                 ),
+                
+                
+                
+                
+                // Column(
+                //   children: [
+                //     ListTile(
+                //       title: Text(
+                //         widget.namaEmployee0,
+                //         style: SafeGoogleFont('SF Pro Text',
+                //             fontSize: 20,
+                //             fontWeight: FontWeight.w600,
+                //             height: 1.2575,
+                //             letterSpacing: 1,
+                //             color: Colors.black87),
+                //       ),
+                //       trailing: Text(
+                //          widget.totalEmployee0.toString(),
+                //         style: SafeGoogleFont('SF Pro Text',
+                //             fontSize: 20,
+                //             fontWeight: FontWeight.w600,
+                //             height: 1.2575,
+                //             letterSpacing: 1,
+                //             color: Colors.black87),
+                //       ),
+                //     ),
+                //     ListTile(
+                //       title: Text(
+                //         widget.namaEmployee1,
+                //         style: SafeGoogleFont('SF Pro Text',
+                //             fontSize: 20,
+                //             fontWeight: FontWeight.w600,
+                //             height: 1.2575,
+                //             letterSpacing: 1,
+                //             color: Colors.black87),
+                //       ),
+                //       trailing: Text(
+                //         widget.totalEmployee1.toString(),
+                //         style: SafeGoogleFont('SF Pro Text',
+                //             fontSize: 20,
+                //             fontWeight: FontWeight.w600,
+                //             height: 1.2575,
+                //             letterSpacing: 1,
+                //             color: Colors.black87),
+                //       ),
+                //     ),
+                //     ListTile(
+                //       title: Text(
+                //         widget.namaEmployee2,
+                //         style: SafeGoogleFont('SF Pro Text',
+                //             fontSize: 20,
+                //             fontWeight: FontWeight.w600,
+                //             height: 1.2575,
+                //             letterSpacing: 1,
+                //             color: Colors.black87),
+                //       ),
+                //       trailing: Text(
+                //         widget.totalEmployee2.toString(),
+                //         style: SafeGoogleFont('SF Pro Text',
+                //             fontSize: 20,
+                //             fontWeight: FontWeight.w600,
+                //             height: 1.2575,
+                //             letterSpacing: 1,
+                //             color: Colors.black87),
+                //       ),
+                //     ),
+                //   ],
+                // ),
 
                 // Text(
                 //   'Menu Buku Tamu',

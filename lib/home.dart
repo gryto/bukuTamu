@@ -284,6 +284,7 @@ class _MainTabBarState extends State<MainTabBar> {
           print(content);
           print("dataaing");
 
+
           totalGuest = content['data'];
 
           totalGuest0 = totalGuest[0]['total'];
@@ -1433,6 +1434,7 @@ class _MainTabBarState extends State<MainTabBar> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => GuesOftenPage(
+                      totalGuest : totalGuest,
                       totalGuest0: totalGuest0,
                       totalGuest1: totalGuest1,
                       totalGuest2: totalGuest2,
@@ -1449,6 +1451,7 @@ class _MainTabBarState extends State<MainTabBar> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => EmployeePage(
+                      totalEmployee: totalEmployee,
                       totalEmployee0: totalEmployee0,
                       totalEmployee1: totalEmployee1,
                       totalEmployee2: totalEmployee2,
